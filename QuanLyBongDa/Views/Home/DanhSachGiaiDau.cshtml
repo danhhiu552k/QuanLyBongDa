@@ -1,0 +1,67 @@
+﻿
+
+@*@model List<GiaiDau>*@
+@{
+    ViewBag.Title = "DanhSachGiaiDau";
+    Layout = "~/Views/_LayoutIndex.cshtml";
+}
+
+
+
+<section id="contant" class="contant main-heading team">
+    <div class="row">
+        <h2 style="margin-bottom:20px">Danh Sách Giải Đấu</h2>
+        <button class="btn-brd" style="padding:5px; margin-bottom:20px; background-color:black; color:red" onclick="location.href='@Url.Action("ThemMoiGiaiDau","Home")'">Thêm Giải Đấu Mới</button>
+        <div class="container">
+            <div id="GiaiDau"></div>
+            @*<div class="col-md-3 column">
+                <div class="card">
+                    <img class="img-responsive" src="https://www.kindpng.com/picc/m/254-2547947_premier-league-emblem-pes-2017-hd-png-download.png" alt="EPL" style="width:100%">
+                    <div class="">
+                        <h3></h3>
+                        <p class="title">Đội</p>
+                        <p>
+                            <div class="center"><button class="button" onclick="location.href=''">Chi Tiết</button></div>
+                        </p>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script type="text/javascript">
+        var url = "https://localhost:44365/Home/ChiTietGiaiDau?MaGiaiDau=";
+        var url2 = "https://localhost:44365/Home/SuaGiaiDau?MaGiaiDau=";
+        //var iddoi = "";
+        $('document').ready(function () {
+            var link = "https://www.kindpng.com/picc/m/254-2547947_premier-league-emblem-pes-2017-hd-png-download.png";
+            var str = '';
+            $.getJSON('/api/giaidau', function (data) {
+                $.each(data, function (key, val) {
+                    str += '<div class="col-md-3 column"><div class="card"><img class="img-responsive" src="' + link + '" alt = "EPL" style = "width:100%"><div><h3>' + val.TenGiaiDau + '</h3><p class="title">' + val.SoLuongDoi + ' Đội</p><p><div class="center"><button style="margin:10px" class="button" onclick="location.href=' + "'" + url + val.MaGiaiDau + "'" + '">Chi Tiết</button><button style="margin:10px" class="button" onclick="location.href=' + "'" + url2 + val.MaGiaiDau + "'" + '">Chỉnh Sửa</button><button style="margin:10px" class="button" onclick="xoa(' + "'" + val.MaGiaiDau + "'" + ')">Xóa</button></div></p></div></div></div>';
+                    console.log(val.MaGiaiDau);
+                });
+                $("#GiaiDau").html(str);
+            });
+        });
+        function xoa(MaGiaiDau) {
+            var x = confirm("Bạn có chắc chắn muốn xóa giải đấu này không");
+            if (x) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'https://localhost:44365/api/giaidau?MaGiaiDau=' + MaGiaiDau,
+                    dataType: 'json',
+                    success: function (data) {
+                        alert("Xóa thành công!");
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+            else return false;
+        }
+    </script>
+}

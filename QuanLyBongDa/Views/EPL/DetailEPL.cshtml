@@ -1,0 +1,362 @@
+﻿@using QuanLyBongDa.Models;
+@model idLeague
+@{
+    ViewBag.Title = "DetailEPL";
+    Layout = "~/Views/_LayoutIndex.cshtml";
+}
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/css/style2.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //https://www.thesportsdb.com/api/v1/json/1/lookuptable.php?l=4328&s=2020-2021 // bxh
+        //https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id=4328 //15 tran gan nhat
+        //https://www.thesportsdb.com/api/v1/json/1/eventsround.php?id=4328&r=31&s=2020-2021 vong dau 31 giai EPL mua 2021
+        var idleague = @Model.idLeagueN;
+        try {
+            getdata(idleague);
+        } catch (err) {
+            console.log(err)
+        } try {
+        getdataleague(idleague);
+        }catch (err) {
+            console.log(err)
+        }
+        try {
+        bangxephang(idleague);
+        } catch (err) {
+            console.log(err)
+        }
+        function bangxephang(idleague) {
+            var url = 'https://www.thesportsdb.com/api/v1/json/1/lookuptable.php?l=' + idleague + '&s=2020-2021'
+            //console.log(url);
+            $.getJSON(url, function (respone) {
+                for (var i = 0; i < 20; i++) {
+                    var rank = respone.table[i].intRank;
+                    var logo = respone.table[i].strTeamBadge;
+                    var nameteam = respone.table[i].strTeam;
+                    var played = respone.table[i].intPlayed;
+                    var win = respone.table[i].intWin;
+                    var draw = respone.table[i].intDraw;
+                    var loss = respone.table[i].intLoss;
+                    var goal = respone.table[i].intGoalsFor;
+                    var goalloss = respone.table[i].intGoalsAgainst;
+                    var goaldifference = respone.table[i].intGoalDifference;
+                    var point = respone.table[i].intPoints;
+
+                    var bxh = '<tr><td><b class="sortnr">' + rank + '</b>&ensp;<img style="width: 24px; height: 24px;" src="' + logo + '">&ensp;' + nameteam + '</sortnrtd><td>' + played + '</td><td>' + win + '</td><td>' + draw + '</td><td>' + loss + '</td><td>' + goal + '</td><td>' + goalloss + '</td><td>' + goaldifference + '</td><td>' + point + '</td></tr>'
+                    document.getElementById('club').insertAdjacentHTML('beforeend', bxh);
+
+
+
+                    var rows = $('#bxh > tbody').children('tr').get();
+                    rows.sort(function (a, b) {
+                        var anum = parseInt($(a).find(".sortnr").text(), 10);
+                        var bnum = parseInt($(b).find(".sortnr").text(), 10);
+                        return anum - bnum;
+                    });
+                    for (var i = 0; i < rows.length; i++) {
+                        $('#bxh > tbody').append(rows[i]);
+                    }
+                }
+            });
+        }
+
+        //Lấy dữ liệu api tên đội trong EPL
+        function getdata(idl) {
+
+            var urlpre = 'https://www.thesportsdb.com/api/v1/json/1/lookup_all_teams.php?id=' + idl+''
+            var id = [];
+            $.getJSON(urlpre, function (respone) {
+                const leng = Object.keys(respone.teams).length;
+                //console.log(respone.teams[3].strTeam);
+                for (var i = 0; i < leng; ++i) {
+                    var idteam = respone.teams[i].idTeam
+                    var nameteam = respone.teams[i].strTeam
+                    id.push(idteam);
+                }
+
+                for (var i = 0; i < id.length; i++) {
+                    var urlteam = 'https://www.thesportsdb.com/api/v1/json/1/lookupteam.php?id=' + id[i] + ''
+                    $.getJSON(urlteam, function (datateam) {
+                        var str = '<div class="grid-item" style="background-color:#ffecec;"><a href="/EPL/DetailTeam?idTeam=' + datateam.teams[0].idTeam + '" class="linka"><img class="imgc" id="' + datateam.teams[0].idTeam + '" src="' + datateam.teams[0].strTeamBadge + '" alt="' + nameteam + '"> <h6 style="color: #000;">' + datateam.teams[0].strTeam + '</h6></a> </div>'
+                        document.getElementById('grid-container1').insertAdjacentHTML('beforeend', str);
+                    });
+                }
+            });
+
+
+        }
+
+        function getdataleague(idl) {
+            var urlpre = 'https://www.thesportsdb.com/api/v1/json/1/lookupleague.php?id=' + idl+''
+            $.getJSON(urlpre, function (respone) {
+                var yearnow = new Date();
+                var age = yearnow.getFullYear() - respone.leagues[0].intFormedYear;
+                var premier = '<div><b>Name</b><br><font size="5"><a href="/league/4328" class="linka"> ' + respone.leagues[0].strLeague + ' </a></font><br><br><b>Badge</b><br><a style="width: 150px;height: 150px;" href="' + respone.leagues[0].strBadge + '" rel="prettyPhoto"><img src="' + respone.leagues[0].strBadge + '" style="width: 80%;margin-left: 12%;margin-top: 0%;"></a><br><br><br><br><b>Poster</b><br><a href="' + respone.leagues[0].strPoster + '" rel="prettyPhoto"><img src="' + respone.leagues[0].strPoster + '"style="width: 90%;margin-left: 8%;margin-top: 9%;"></a><br><br><b>Established</b><br>' + respone.leagues[0].intFormedYear + ' (' + age + ' years old)<br><br><br><b>Current Season</b><br>' + respone.leagues[0].strCurrentSeason + '<br><br><b>Location</b><br>' + respone.leagues[0].strCountry + '<br><br>' + respone.leagues[0].strLeagueAlternate + '</div>'
+                document.getElementById('Chitiet').insertAdjacentHTML('afterbegin', premier);
+
+
+                var contact = '<div class="icon-bar"><a href="' + respone.leagues[0].strFacebook + '"  class="facebook"><i class="fa fa-facebook"></i></a> <a href="' + respone.leagues[0].strTwitter + '" class="twitter"><i class="fa fa-twitter"></i></a> <a href="' + respone.leagues[0].strYoutube + '" class="youtube"><i class="fa fa-youtube"></i></a></div>'
+                document.getElementById('Contact').insertAdjacentHTML('afterbegin', contact);
+
+                var society = respone.leagues[0].strDescriptionEN;
+                document.getElementById('society').insertAdjacentHTML('afterbegin', society);
+            });
+        }
+
+
+        match(idleague, 34, '2020-2021');
+    });
+
+    function hours1(hours, d, m, y) {
+        var time;
+        var day = parseInt(d);
+        var month = parseInt(m);
+        var year = parseInt(y);
+        var h = hours.split(":")
+        if (parseInt(h[0]) + 7 > 24) {
+            //1, 3, 5, 7, 8, 10,12
+            if (month == "1" || month == "3" || month == "5" || month == "7" || month == "8" || month == "10" || month == "12") {
+                if (day <= 30 && month < 12) {
+                    time = year + "-" + month + "-" + (day + 1) + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                    return time
+                } else if (day == 31 && month == 12) {
+                    time = (year + 1) + "-" + 1 + "-" + 1 + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                    return time
+                } else if (day == 31 && month < 12) {
+                    time = year + "-" + (month + 1) + "-" + 1 + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                    return time
+                }
+            } else if (month == "4" || month == "6" || month == "9" || month == "11") {
+                if (day < 30 && month < 12) {
+                    time = year + "-" + month + "-" + (day + 1) + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                    return time
+                } else {
+                    time = year + "-" + (month + 1) + "-" + 1 + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                    return time
+                }
+            } else if (month == 2) {
+                if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0)) {
+                    if (day < 29) {
+                        time = year + "-" + month + "-" + (day + 1) + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                        return time
+                    } else {
+                        time = year + "-" + (month + 1) + "-" + 1 + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                        return time
+                    }
+                } else {
+                    if (day < 28) {
+                        time = year + "-" + month + "-" + (day + 1) + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                        return time
+                    } else {
+                        time = year + "-" + (month + 1) + "-" + 1 + " / " + (parseInt(h[0]) + 7 - 24) + ":" + h[1]
+                        return time
+                    }
+                }
+            }
+
+        } else {
+            time = year + "-" + month + "-" + day + " / " + (parseInt(h[0]) + 7) + ":" + h[1]
+            return time
+        }
+    }
+
+    function converday(s) {
+        var a = s.split(" / ")[0].split("-")
+        if (a[1] < 10)
+            a[1] = "0" + a[1]
+        if (a[2] < 10)
+            a[2] = "0" + a[2];
+        return a[0] + "-" + a[1] + "-" + a[2];
+    }
+
+    function daytoday() {
+        var dateObj = new Date();
+        var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
+        return year + "-" + month + "-" + day;
+    }
+
+    function sosanhday(day1, day2) {
+        var ngay1 = day1.split("-");
+        var ngay2 = day2.split("-");
+        var y = ngay1[0] - ngay2[0];
+        var m = ngay1[1] - ngay2[1];
+        var d = ngay1[2] - ngay2[2];
+        if (day1 == day2) {
+            return 0;
+        } else if (y == 0 && m == 0 && d == -1) {
+            return -1
+        } else if (y == 0 && m == 0 && d == 1) {
+            return 1
+        }
+    }
+
+
+    function match(idleague, idround, idseason) {
+
+        var url = 'https://www.thesportsdb.com/api/v1/json/1/eventsround.php?id=' + idleague + '&r=' + idround + '&s=' + idseason + ''
+        try {
+            $.getJSON(url, function (respone) {
+                var intRound = respone.events[0].intRound;
+                var matched = '<h4 id="played" style="color: #000;">Các trận đấu đã qua vòng ' + intRound + '</h4>'
+                document.getElementById('matched').insertAdjacentHTML('beforeend', matched);
+                var latematched = '<h4  id="played" tyle="color: #000;">Trận tiếp theo vòng ' + intRound + '</h4>'
+                document.getElementById('latematched').insertAdjacentHTML('beforeend', latematched);
+                for (var i = 0; i < respone.events.length; i++) {
+                    var strHomeTeam = respone.events[i].strHomeTeam;
+                    var idHomeTeam = respone.events[i].idHomeTeam;
+                    var strAwayTeam = respone.events[i].strAwayTeam;
+                    var idAwayTeam = respone.events[i].idAwayTeam;
+                    var strThumb = respone.events[i].strThumb;
+                    var strStatus = respone.events[i].strStatus;
+                    var strVenue = respone.events[i].strVenue;
+                    var intHomeScore = respone.events[i].intHomeScore;
+                    var intAwayScore = respone.events[i].intAwayScore;
+                    var strVideo = respone.events[i].strVideo;
+                    var dateEventLocal = respone.events[i].dateEventLocal;
+                    var strTime = respone.events[i].strTime;
+                    /* console.log(strHomeTeam);
+                     console.log(strTime);
+                     console.log(dateEventLocal);*/
+
+                    /*console.log(time[1]);
+                    console.log(converday(time[0]));*/
+                    var match = '<ul id="' + idHomeTeam + '"><li style="width: 30%;float: left;"><a><span>' + strHomeTeam + '</span></a></li><li style="float: left;width: 10%;text-align: center;"><a class="linka"> VS </a></li><li style="width: 30%;float: left"><a><span>' + strAwayTeam + '</span></a></li></ul>'
+                    var matchfn = '<ul  id="' + idHomeTeam + '"><li style="width: 30%;float: left;"><a ><span>' + strHomeTeam + '</span></a></li><li style="float: left;width: 10%;text-align: center;"><a><b>' + intHomeScore + '</b>&ensp;-&ensp;<b>' + intAwayScore + '</b></a></li><li style="width: 30%;float: left;"><a><span>' + strAwayTeam + '</span></a></li></ul>'
+                    /*var match = '<ul id="played"><li class="vs"><a href="#" id="'+idHomeTeam+'"></a><span>'+strHomeTeam+'</span></li><li class="vs"><div style=" width: 100px;margin: auto;"><p style="text-align: center;font-weight: bolder;">Vs</p></div></li><li class="vs"><a href="#" id="'+idAwayTeam+'"></a><span>'+strAwayTeam+'</span></li></ul>'*/
+                    /*var matchfn = '<ul id="played"><li class="vs"><a href= "#" id = "'+idHomeTeam+'"></a><span>'+strHomeTeam+'</span></li><li class="vs"><span><b>'+intHomeScore+'</b>&ensp;-&ensp;<b>'+intAwayScore+'</b></span></li><li class="vs"><a href= "#" id ="'+idAwayTeam+'"><img src="" alt=""></a><span>'+strAwayTeam+'</span></li></ul>'*/
+
+                    var matchhf = '<ul  id="' + idHomeTeam + '"><li style="width: 30%;float: left;"><a><span>' + strHomeTeam + '</span></a></li><li style="float: left;width: 10%;text-align: center;"><a><b>' + intHomeScore + '</b>&ensp;-&ensp;<b>' + intAwayScore + '</b></a></li><li style="width: 30%;float: left;"><a><span>' + strAwayTeam + '</span></a></li></ul>'
+                    /*var matchhf = '<ul id="played"><li class="vs"><a href= "#" id = "'+idHomeTeam+'"></a><span>'+strHomeTeam+'</span></li><li class="vs"><div style=" width: 100px;margin: auto;"><p style="text-align: center;font-weight: bolder;"><b>'+intHomeScore+'</b>&ensp;-&ensp;<b>'+intAwayScore+'</b></p><img src="https://www.thesportsdb.com/images/icons/today.png" style="width=30px;height:18px;" alt="placeholder+image"></div></li><li class="vs"><a href= "#" id ="'+idAwayTeam+'"><img src="" alt=""></a><span>'+strAwayTeam+'</span></li></ul>'*/
+                    try {
+                        var date = dateEventLocal.split("-");
+                        var time = hours1(strTime, date[2], date[1], date[0]).split(" / ");
+                        var sosanh = sosanhday(converday(daytoday()), converday(time[0]));
+                    } catch (err) {
+                        console.log(strTime);
+                        console.log(dateEventLocal);
+                        console.log(strStatus);
+                        var sosanh = 3;
+                    }
+                    switch (strStatus) {
+                        case "Not Started":
+                            if (sosanh == 0) {
+                                $("#latematch").append(match);
+                                $('#' + idAwayTeam + '').append('<p>' + time[1] + '&emsp;' + converday(time[0]) + '</p>');
+                                break;
+                            } else if (sosanh == -1) {
+                                $("#latematch").append(match);
+                                $('#' + idHomeTeam + '').append('<li style="float: left;width: 20%;text-align: center;"><a  ><span>Ngay Mai &nbsp; ' + time[1] + ' </span></a></li>');
+                                break;
+                            }
+                            else {
+                                $("#latematch").append(match);
+                                $('#' + idHomeTeam + '').append('<li style="float: left;width: 20%;text-align: center;"><a  ><span>' + time[0] + '</span></a></li>');
+                                break;
+                            }
+                        case "Match Postponed":
+                            var match = '<ul id = "' + idHomeTeam + '"><li style="width: 30%;float: left;"><a><span>' + strHomeTeam + '</span></a></li><li style="float: left;width: 10%;text-align: center;"><a > Chưa Đá </a></li><li style="width: 30%;float: left;"><a id = "' + idAwayTeam + '" ><span>' + strAwayTeam + '</span></a></li></ul>'
+                            document.getElementById('latematch').insertAdjacentHTML('beforeend', match);
+                            $('#' + idHomeTeam + '').append('<li style="float: left;width: 20%;text-align: center;"><a  ><span>' + time[0] + '</span></a></li>');
+                            break;
+                        case "Match Finished":
+                            if (sosanh == 0) {
+                                $("#match").append(matchhf);
+                                $('#' + idHomeTeam + '').append('<li style="float: left;width: 20%;text-align: center;"><a  ><span>Hôm Nay</span></a></li>');
+                                break;
+                            } else if (sosanh == 1) {
+                                $("#match").append(matchfn);
+                                //$('#'+idAwayTeam+'').append('<p>'+time[1]+'&emsp;Hôm Qua</p>');
+                                $('#' + idHomeTeam + '').append('<li style="float: left;width: 20%;text-align: center;"><a  ><span>Hôm Qua </span></a></li>');
+                                break;
+                            }
+                            else {
+                                $("#match").append(matchfn);
+                                $('#' + idHomeTeam + '').append('<li style="float: left;width: 20%;text-align: center;"><a  ><span>' + time[0] + '</span></a></li>');
+                                break;
+                            }
+                        case "Halftime":
+                            document.getElementById('match').insertAdjacentHTML('beforeend', matchhf);
+                            $('#' + idHomeTeam + '').append('<li style="float: left;width: 20%;text-align: center;"><a  ><span>' + time[1] + '</span></a></li>');
+                            break;
+                        case null:
+                            document.getElementById('match').insertAdjacentHTML('beforeend', matchfn);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        } catch (err) {
+            var matched = '<h4 id="played">Chưa Cập Nhật</h4>'
+            document.getElementById('matched').insertAdjacentHTML('beforeend', matched);
+        }
+    }
+    function sort() {
+        var table = $('#bxh').DataTable({
+            "paging": false,
+            "info": false,
+            "searching": false
+        });
+        var data = table.column(0).data().sort();
+    }
+
+
+</script>
+
+
+<div class="row" id="rowbody">
+    <div class="col-sm-3">
+        <div style="margin-left:20px;" id="Chitiet">
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <h4 id="latematched"></h4>
+        <aside id="sidebar" class="left-bar">
+            <div class="feature-matchs" id="fute">
+                <div class="team-btw-match" id="latematch">
+
+                </div>
+            </div>
+        </aside>
+        <h4 id="matched"></h4>
+        <aside id="sidebar" class="left-bar">
+            <div class="feature-matchs" id="pass">
+                <div class="team-btw-match" id="match">
+
+                </div>
+            </div>
+        </aside>
+        <table class="table" id="bxh" style="width: 100%; color: black; background: #ffffff;">
+            <span>Mùa giải&ensp;&ensp;2020-2021</span>
+            <thead>
+                <tr>
+                    <th scope="col">Câu lạc bộ</th>
+                    <th scope="col">R</th>
+                    <th scope="col">W</th>
+                    <th scope="col">D</th>
+                    <th scope="col">L</th>
+                    <th scope="col">GS</th>
+                    <th scope="col">GL</th>
+                    <th scope="col">GD</th>
+                    <th scope="col">P</th>
+                </tr>
+            </thead>
+            <tbody id="club">
+            </tbody>
+        </table>
+        <div id="society"></div>
+        <div id="grid-container1"></div>
+        <div id="Contact"></div>
+    </div>
+</div>
+

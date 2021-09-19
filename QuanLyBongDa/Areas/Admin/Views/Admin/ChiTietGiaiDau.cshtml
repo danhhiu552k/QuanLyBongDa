@@ -1,0 +1,59 @@
+﻿@model QuanLyBongDa.GiaiDau
+
+@{
+    ViewBag.Title = "ChiTietGiaiDau";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>ChiTietGiaiDau</h2>
+
+<div>
+    <h4>GiaiDau</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Giải: 
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenGiaiDau)
+        </dd>
+
+        <dt>
+            Số đội: 
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoLuongDoi)
+        </dd>
+
+        <dt>
+            Thể thức thi đấu:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TheThucThiDau)
+        </dd>
+
+        <dt>
+            Giới tính:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GioiTinh)
+        </dd>
+
+        <dt>
+            Loại Sân:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TheLoaiSan)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaGiaiDau }) |
+    @Html.ActionLink("Back to List", "DanhSachGiaiDau")
+</p>

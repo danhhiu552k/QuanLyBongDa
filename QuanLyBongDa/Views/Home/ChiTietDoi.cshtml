@@ -1,0 +1,47 @@
+﻿@model CauThu
+@{
+    ViewBag.Title = "ChiTietDoi";
+    Layout = "~/Views/_LayoutIndex.cshtml";
+}
+
+<section id="contant" class="contant main-heading team">
+    <div class="row">
+        <h2 style="margin-bottom:20px">Chi Tiet Doi</h2>
+        <div class="container">
+            <div id="ChiTietDoiBong"></div>
+
+            @*@foreach (var item in Model)
+                {
+                    <div class="col-md-3 column">
+                        <div class="card">
+                            <img class="img-responsive" src="https://storage.oxii.vn/Cache/Sites/OXII/Storage/Images/2021/4/14/1920/de-bruyne-tu-minh-kiem-duoc-hop-dong-83-trieu-bang-nhu-the-nao-1.jpeg" alt="MCl" style="width:100%">
+                            <div class="">
+                                <h4>@item.HoTenCauThu</h4>
+                                <p>
+                                    <div class="center"><button class="button" onclick="">@item.ViTri | @item.SoAo</button></div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }*@
+        </div>
+    </div>
+</section>
+    @section Scripts{
+        <script type="text/javascript">
+            var id = '@Model.MaDoiBong.Trim().ToString()';
+            console.log(id);
+            $('document').ready(function () {
+                var link = "https://storage.oxii.vn/Cache/Sites/OXII/Storage/Images/2021/4/14/1920/de-bruyne-tu-minh-kiem-duoc-hop-dong-83-trieu-bang-nhu-the-nao-1.jpeg";
+                var str = '';
+                $.getJSON('/api/giaidau?MaDoiBong=' + id, function (data) {
+                $.each(data, function (key, val) {
+
+                    str += '<div class="col-md-3 column"><div class="card"><img class="img-responsive" src="' + link + '" alt = "MCl" style = "width:100%"><div><h4>' + val.HoTenCauThu + '</h4><p><div class="center"><button class="button" onclick="">'+ val.SoAo | val.ViTri +'</button></div></p></div></div></div>';
+                });
+                    $("#ChiTietDoiBong").html(str);
+            });
+
+        });
+        </script>
+    }

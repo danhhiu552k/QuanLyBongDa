@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QuanLyGiaiDau" Class="DBGiaiDauDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-1JA95LE\SQLEXPRESS;Initial Catalog=QuanLyGiaiDau;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="QuanLyGiaiDauConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CauThu" Member="CauThus">
+    <Type Name="CauThu">
+      <Column Name="MaCauThu" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HoTenCauThu" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="GioiTinh" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SoAo" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="ViTri" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="MaDoiBong" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Association Name="DoiBong_CauThu" Member="DoiBong" ThisKey="MaDoiBong" OtherKey="MaDoiBong" Type="DoiBong" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ChiTietTranDau" Member="ChiTietTranDaus">
+    <Type Name="ChiTietTranDau">
+      <Column Name="BanThang" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TheVang" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TheDo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaTranDau" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaDoi" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="DoiBong_ChiTietTranDau" Member="DoiBong" ThisKey="MaDoi" OtherKey="MaDoiBong" Type="DoiBong" IsForeignKey="true" />
+      <Association Name="TranDau_ChiTietTranDau" Member="TranDau" ThisKey="MaTranDau" OtherKey="MaTranDau" Type="TranDau" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DoiBong" Member="DoiBongs">
+    <Type Name="DoiBong">
+      <Column Name="MaDoiBong" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenDoi" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MaGiaiDau" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="MaHLV" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Association Name="DoiBong_CauThu" Member="CauThus" ThisKey="MaDoiBong" OtherKey="MaDoiBong" Type="CauThu" />
+      <Association Name="DoiBong_ChiTietTranDau" Member="ChiTietTranDau" ThisKey="MaDoiBong" OtherKey="MaDoi" Type="ChiTietTranDau" Cardinality="One" />
+      <Association Name="GiaiDau_DoiBong" Member="GiaiDau" ThisKey="MaGiaiDau" OtherKey="MaGiaiDau" Type="GiaiDau" IsForeignKey="true" />
+      <Association Name="HuanLuyenVien_DoiBong" Member="HuanLuyenVien" ThisKey="MaHLV" OtherKey="MaHLV" Type="HuanLuyenVien" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GiaiDau" Member="GiaiDaus">
+    <Type Name="GiaiDau">
+      <Column Name="MaGiaiDau" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenGiaiDau" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SoLuongDoi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TheThucThiDau" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="GioiTinh" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TheLoaiSan" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="GiaiDau_DoiBong" Member="DoiBongs" ThisKey="MaGiaiDau" OtherKey="MaGiaiDau" Type="DoiBong" />
+      <Association Name="GiaiDau_TranDau" Member="TranDaus" ThisKey="MaGiaiDau" OtherKey="MaGiaiDau" Type="TranDau" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HuanLuyenVien" Member="HuanLuyenViens">
+    <Type Name="HuanLuyenVien">
+      <Column Name="MaHLV" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenHLV" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Association Name="HuanLuyenVien_DoiBong" Member="DoiBongs" ThisKey="MaHLV" OtherKey="MaHLV" Type="DoiBong" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TranDau" Member="TranDaus">
+    <Type Name="TranDau">
+      <Column Name="MaTranDau" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LoaiTran" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaTrongTai" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="MaGiaiDau" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Association Name="TranDau_ChiTietTranDau" Member="ChiTietTranDaus" ThisKey="MaTranDau" OtherKey="MaTranDau" Type="ChiTietTranDau" />
+      <Association Name="GiaiDau_TranDau" Member="GiaiDau" ThisKey="MaGiaiDau" OtherKey="MaGiaiDau" Type="GiaiDau" IsForeignKey="true" />
+      <Association Name="TrongTai_TranDau" Member="TrongTai" ThisKey="MaTrongTai" OtherKey="MaTrongTai" Type="TrongTai" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TrongTai" Member="TrongTais">
+    <Type Name="TrongTai">
+      <Column Name="MaTrongTai" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenTrongTai" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Association Name="TrongTai_TranDau" Member="TranDaus" ThisKey="MaTrongTai" OtherKey="MaTrongTai" Type="TranDau" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tDanhGia" Member="tDanhGias">
+    <Type Name="tDanhGia">
+      <Column Name="MaDG" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HoTen" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SDT" Type="System.String" DbType="NChar(20)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NChar(30)" CanBeNull="true" />
+      <Column Name="NoiDung" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tTaiKhoan" Member="tTaiKhoans">
+    <Type Name="tTaiKhoan">
+      <Column Name="TaiKhoan" Type="System.String" DbType="NChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MatKhau" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Quyen" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NChar(20)" CanBeNull="true" />
+      <Column Name="SoDT" Type="System.String" DbType="NChar(13)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.VoteCLB" Member="VoteCLBs">
+    <Type Name="VoteCLB">
+      <Column Name="Idteam" Type="System.String" DbType="NChar(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="vote" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

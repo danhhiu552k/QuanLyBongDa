@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 12.375, 9.25" name="DBGiaiDau">
+  <DataContextMoniker Name="/DBGiaiDauDataContext" />
+  <nestedChildShapes>
+    <classShape Id="0152d727-c8e7-41a3-9902-61b8c91e6263" absoluteBounds="6.375, 6.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/CauThu" />
+      <nestedChildShapes>
+        <elementListCompartment Id="79f1f9ff-df61-4239-aa75-d655b234fe53" absoluteBounds="6.39, 7.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ea042740-a0be-4def-a5fd-cf93f66edd4d" absoluteBounds="6.375, 2.875, 2, 1.7708968098958327">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/ChiTietTranDau" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0d236715-3d6d-4ab0-94ed-94771e1f4b04" absoluteBounds="6.39, 3.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8babd179-6f6b-417b-a5ad-e74222809301" absoluteBounds="3.625, 4.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/DoiBong" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0b3d95ad-b401-495f-981d-832311d216c5" absoluteBounds="3.64, 4.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="010128e5-6a59-4712-8c4a-c5bba447d6f1" absoluteBounds="0.875, 4.375, 2, 1.9631982421875005">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/GiaiDau" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6e08988d-fde0-40f3-875d-2a85e6f93fdd" absoluteBounds="0.89, 4.835, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="619c3709-dc6a-47de-bcde-4f88c1c4ba76" absoluteBounds="0.875, 7.625, 2, 1.3862939453124996">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/HuanLuyenVien" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1be3c185-c67f-4f31-ad24-f5aecb09a15f" absoluteBounds="0.89, 8.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1b107002-70f9-4eb1-b3bd-8a0cc6bbb13b" absoluteBounds="3.625, 1.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/TranDau" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2c37790b-afbe-4f45-95de-527121d75292" absoluteBounds="3.64, 1.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1b8b7532-1592-4de2-9051-78e2c427675e" absoluteBounds="0.875, 1.625, 2, 1.3862939453125003">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/TrongTai" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9b3ee217-f74e-4cb2-8eb7-40dbcf8b039d" absoluteBounds="0.89, 2.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.625 : 6.07859537760417); (4.625 : 7.82774983723958); (6.375 : 7.82774983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/DBGiaiDauDataContext/DoiBong/DoiBong_CauThu" />
+      <nodes>
+        <classShapeMoniker Id="8babd179-6f6b-417b-a5ad-e74222809301" />
+        <classShapeMoniker Id="0152d727-c8e7-41a3-9902-61b8c91e6263" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.625 : 5.36224659375); (7.375 : 5.36224659375); (7.375 : 4.64589680989583)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/DBGiaiDauDataContext/DoiBong/DoiBong_ChiTietTranDau" />
+      <nodes>
+        <classShapeMoniker Id="8babd179-6f6b-417b-a5ad-e74222809301" />
+        <classShapeMoniker Id="ea042740-a0be-4def-a5fd-cf93f66edd4d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.875 : 5.28929768880208); (3.625 : 5.28929768880208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/DBGiaiDauDataContext/GiaiDau/GiaiDau_DoiBong" />
+      <nodes>
+        <classShapeMoniker Id="010128e5-6a59-4712-8c4a-c5bba447d6f1" />
+        <classShapeMoniker Id="8babd179-6f6b-417b-a5ad-e74222809301" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.875 : 8.41952189127604); (4.0937475 : 8.41952189127604); (4.0937475 : 6.07859537760417)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/DBGiaiDauDataContext/HuanLuyenVien/HuanLuyenVien_DoiBong" />
+      <nodes>
+        <classShapeMoniker Id="619c3709-dc6a-47de-bcde-4f88c1c4ba76" />
+        <classShapeMoniker Id="8babd179-6f6b-417b-a5ad-e74222809301" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.625 : 3.07738007346755); (6 : 3.45238007346755); (6 : 2.5); (6.375 : 2.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/DBGiaiDauDataContext/TranDau/TranDau_ChiTietTranDau" />
+      <nodes>
+        <classShapeMoniker Id="1b107002-70f9-4eb1-b3bd-8a0cc6bbb13b" />
+        <classShapeMoniker Id="ea042740-a0be-4def-a5fd-cf93f66edd4d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.875 : 4.375); (3.25 : 4); (3.25 : 2.28929768880208); (3.625 : 2.28929768880208)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DBGiaiDauDataContext/GiaiDau/GiaiDau_TranDau" />
+      <nodes>
+        <classShapeMoniker Id="010128e5-6a59-4712-8c4a-c5bba447d6f1" />
+        <classShapeMoniker Id="1b107002-70f9-4eb1-b3bd-8a0cc6bbb13b" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.875 : 2.71279581705729); (3.16666666666667 : 2.71279581705729 : JumpStart); (3.33333333333333 : 2.71279581705729 : JumpEnd); (3.625 : 2.71279581705729)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/DBGiaiDauDataContext/TrongTai/TrongTai_TranDau" />
+      <nodes>
+        <classShapeMoniker Id="1b8b7532-1592-4de2-9051-78e2c427675e" />
+        <classShapeMoniker Id="1b107002-70f9-4eb1-b3bd-8a0cc6bbb13b" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="5da9c426-ff96-4083-a38a-b7baa6316cb0" absoluteBounds="7, 1.75, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/tDanhGia" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bac74b84-859d-4a0d-b32b-9ff646809be3" absoluteBounds="7.015, 2.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="451d323c-d50c-4c23-8fb4-033abcdf2e93" absoluteBounds="10.125, 5.75, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/tTaiKhoan" />
+      <nestedChildShapes>
+        <elementListCompartment Id="adcf97df-55f2-4446-a42a-698af96edbdd" absoluteBounds="10.14, 6.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="af6cb90d-b845-41f0-94c4-ca749e1c83d5" absoluteBounds="5.125, 0.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/DBGiaiDauDataContext/VoteCLB" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0f48b263-e748-40b6-9554-8736edb732a0" absoluteBounds="5.14, 0.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

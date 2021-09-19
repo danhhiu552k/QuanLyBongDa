@@ -1,0 +1,7 @@
+﻿@using QuanLyBongDa.Models;
+@model List<DoiBong>
+
+@foreach (var item in Model)
+{
+    <li><a href="@Url.Action("DanhSachThanhVien","Home",new { @MaDoi = item.MaDoiBong})">@item.TenDoi</a></li>
+}

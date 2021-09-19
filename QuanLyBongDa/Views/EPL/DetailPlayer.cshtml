@@ -1,0 +1,96 @@
+﻿@using QuanLyBongDa.Models;
+@model idPlayer
+@{
+    ViewBag.Title = "DetailPlayer";
+    Layout = "~/Views/_LayoutIndex.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    var idplayer = @Model.IdPlayer;
+    $.getJSON("https://www.thesportsdb.com/api/v1/json/1/lookupplayer.php?id=" + idplayer + "", function (respone) {
+        var strPlayer = respone.players[0].strPlayer;
+        var dateBorn = respone.players[0].dateBorn;
+        var strBirthLocation = respone.players[0].strBirthLocation;
+        var strDescriptionEN = respone.players[0].strDescriptionEN;
+        var strTeam = respone.players[0].strTeam;
+        var strPosition = respone.players[0].strPosition;
+        var strFacebook = respone.players[0].strFacebook;
+        var strTwitter = respone.players[0].strTwitter;
+        var strHeight = respone.players[0].strHeight;
+        var strWeight = respone.players[0].strWeight;
+        var strThumb = respone.players[0].strThumb;
+        var strCutout = respone.players[0].strCutout;
+        var year = dateBorn.split("-");
+        var yearnow = new Date();
+        var age = yearnow.getFullYear() - year[0];
+
+
+        var abc = '<b>Name</b><br><font size="5"><a href="/player/34172346"> ' + strPlayer + '</a></font><br><a href="#" rel="prettyPhoto"><img src="' + strThumb + '" style="width:100%;border-radius: 10%;"></a><br><br><b>Height</b><br><a>' + strHeight + '</a><br><br><b>Weight</b><br><a>' + strWeight + '</a><br><br><b>Birthday</b><br><a>' + dateBorn + '(' + age + ' years old)</a><br><br><b>Team</b><br><a>' + strTeam + '</a><br>';
+        document.getElementById('abc').insertAdjacentHTML('afterbegin', abc);
+
+        var bcd = '<b>Description</b><br><p>' + strDescriptionEN + '</p>';
+        document.getElementById('bcd').insertAdjacentHTML('afterbegin', bcd);
+        $.getJSON("https://www.thesportsdb.com/api/v1/json/1/lookuphonors.php?id=" + idplayer + "", function (ggg) {
+
+            if (ggg.honors == null) {
+                var gridimg = 'Chưa kịp cập nhật';
+                document.getElementById('gridimg').insertAdjacentHTML('afterbegin', gridimg);
+                var gridimg1 = 'Chưa kịp cập nhật';
+                document.getElementById('gridimg1').insertAdjacentHTML('afterbegin', gridimg1);
+            } else {
+
+                const leng = Object.keys(ggg.honors).length;
+
+                for (var i = 0; i < leng; i++) {
+                    var strHonour = ggg.honors[i].strHonour;
+                    var strSeason = ggg.honors[i].strSeason;
+                    var idTeam = ggg.honors[i].idTeam;
+
+                    @*$.getJSON("https://www.thesportsdb.com/api/v1/json/1/lookupteam.php?id=" + idTeam + "", function (ddd) {
+                        //console.log(ddd);
+                        var strTeamBadge = ddd.teams[0].strTeamBadge;
+                        var gridimg1 = '<tr class="col-xs-3"><td><center><img src="' + strTeamBadge + '" style="width:20%;margin-top: 3em;"></center></td></tr>';
+                        document.getElementById('gridimg1').insertAdjacentHTML('afterbegin', gridimg1);
+
+                    });*@
+                    var gridimg = '<tr class="col-xs-3"><td><center><a href="#" class="text-decoration-none">' + strHonour + '</a><br><div>' + strSeason + '</div><br></center></td></tr>';
+                    document.getElementById('gridimg').insertAdjacentHTML('afterbegin', gridimg);
+                }
+            }
+
+        });
+        /* var player = '<tr class="col-xs-3"><td><center><img style="width: 100%;height: auto" src="'+imgplayer+'" alt="placeholder+image"><a href="#" class="text-decoration-none">'+nameplayer+'</a><b> #'+numberplayer+'</b><br><div style="border-radius: 20%;background: #a6ffa6;width: 2em;height: 1.5em;">'+ContactYear+'</div><br></center></td></tr> '
+       document.getElementById('gridimg').insertAdjacentHTML('afterbegin',player);*/
+    });
+</script>
+
+
+<div class="row" style="background-color:lavender;">
+    <h1>Profile Player</h1>
+    <div class="col-sm-3" style="background-color:lavender;">
+
+        <div id='abc' style="margin-left: 20px;">
+
+        </div>
+
+    </div>
+    <div class="col-sm-9" style="background-color:lavenderblush;">
+        <div id="bcd"></div>
+        <br>
+        <b>Career Honours</b>
+        <div class="row" style="width: 100%;">
+            <!-- id="gridimg" -->
+            <table>
+                <tbody class="row" id="gridimg">
+                </tbody>
+            </table>
+        </div>
+        
+        <h1></h1>
+    </div>
+
+
+</div>

@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_LayoutIndex.cshtml";
+}
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="~/css/style2.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var tennuoc = ["England", "Spain", "France", "Vietnam", "Italy","Germany"]
+
+        var len = tennuoc.length;
+        for (var i = 0; i < len; i++) {
+            getdata(tennuoc[i]);
+        }
+
+        //Lấy dữ liệu api tên nước + id country
+
+    });
+
+    function getdata(country) {
+
+        var url = 'https://www.thesportsdb.com/api/v1/json/1/search_all_leagues.php?c=' + country + '&s=Soccer'
+        $.getJSON(url, function (respone) {
+            let array = []
+            const leng = Object.keys(respone.countrys).length;
+            for (var i = 0; i < leng; i++) {
+                var strLeagueAlternate = respone.countrys[i].strLeagueAlternate;
+                var idLeague = respone.countrys[i].idLeague;
+                //console.log(idLeague);
+                var strBadge = respone.countrys[i].strBadge;
+                var strLeague = respone.countrys[i].strLeague;
+                var strCurrentSeason = respone.countrys[i].strCurrentSeason;
+               @* var str = '<tr class="col-xs-3"><td><center><img style="width: 90%;height: 14em;" src="' + strBadge + '" alt="placeholder+image"><a href="/EPL/DetailEPL?idLeague=' + idLeague + '" class="text-decoration-none">' + strLeagueAlternate + '</a><br><b>' + strCurrentSeason + '</b></center></td></tr> '
+
+                //var str = '<a href="/EPL/DetailEPL" id = "' + idLeague + '"><p>' + strLeagueAlternate + '</p></a>'
+                document.getElementById('gridimg').insertAdjacentHTML('beforeend', str);*@
+
+                var str = '<div class="grid-item" style="border: none;"><a href="/EPL/DetailEPL?idLeague=' + idLeague + '" class="linka"><img class="imgc" src="' + strBadge + '" alt="placeholder+image"> <h6 style="color: #000;">' + strLeagueAlternate + '</a><br><b>' + strCurrentSeason + '</b></h6></a> </div>'
+                document.getElementById('grid-container1').insertAdjacentHTML('beforeend', str);
+            }
+        });
+    }
+
+</script>
+<h2 style="text-align:center;">League Cup</h2>
+<div class="row" style="margin-top:2em;">
+    <div class="col-sm-12">
+        <div id="grid-container1"></div>
+    </div>
+</div>
+

@@ -1,0 +1,102 @@
+﻿@model QuanLyBongDa.GiaiDau
+
+@{
+    ViewBag.Title = "SuaGiaiDau";
+    Layout = "~/Views/_LayoutIndex.cshtml";
+}
+<section id="contant" class="contant main-heading team">
+    <div class="row">
+        <h2 style="margin-bottom:20px">Cập Nhật Giải Đấu</h2>
+        <div class="container">
+            <div class="form-horizontal">
+                <hr />
+                <form>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Mã Giải Đấu</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="MaGiaiDau" value="@Model.MaGiaiDau" readonly/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Tên Giải Đấu</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="TenGiaiDau" value="@Model.TenGiaiDau" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Số Lượng Đội</label>
+                        <div class="col-md-10">
+                            <input type="number" class="form-control" id="SoLuongDoi" value="@Model.SoLuongDoi" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Thể Thức Thi Đấu</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="TheThucThiDau" value="@Model.TheThucThiDau" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Thể Loại Sân</label>
+                        <div class="col-md-10">
+                            <input type="number" class="form-control" id="TheLoaiSan" value="@Model.TheLoaiSan" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Giới Tính</label>
+                        <div class="col-md-10">
+                            <input type="checkbox" id="GioiTinh" /> Nam
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Cập Nhật" class="btn btn-default" onclick="capnhat()" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                @Html.ActionLink("Trang chủ", "Index")
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script type="text/javascript">
+        function capnhat() {
+            var MaGiaiDau = document.getElementById("MaGiaiDau").value;
+            var TenGiaiDau = document.getElementById("TenGiaiDau").value;
+            var SoLuongDoi = document.getElementById("SoLuongDoi").value;
+            var TheThucThiDau = document.getElementById("TheThucThiDau").value;
+            var TheLoaiSan = document.getElementById("TheLoaiSan").value;
+            var GioiTinh = "";
+            if ($("#GioiTinh").is(':checked')) {
+                GioiTinh = 'true';
+            }
+            else GioiTinh = 'false';
+            var x = confirm("Bạn có chắc chắn muốn cập nhật giải đấu này?");
+            if (x) {
+                $.ajax({
+                    type: 'PUT',
+                    url: 'https://localhost:44365/api/giaidau?MaGiaiDau=' + MaGiaiDau + '&TenGiaiDau=' + TenGiaiDau + '&SoLuongDoi=' + SoLuongDoi + '&TheLoaiSan=' + TheLoaiSan + '&TheThucThiDau=' + TheThucThiDau + '&GioiTinh=' + GioiTinh,
+                    dataType: 'json',
+                    success: function (data) {
+                        alert("Cập nhật thành công!");
+                        location.assign("https://localhost:44365/Home/DanhSachGiaiDau");
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+            else {
+                location.replace('https://localhost:44365/Home/SuaGiaiDau?MaGiaiDau=' + MaGiaiDau);
+            } 
+        }
+    </script>
+}

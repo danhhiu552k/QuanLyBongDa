@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "DanhGias12";
+    Layout = "~/Views/_LayoutIndex.cshtml";
+}
+<div class="indent">
+    <h2>Customers’ testimonials</h2>
+    <ul class="list4">
+        @Html.Action("BangDanhGia", "Home")
+    </ul>
+
+    <div class="Danhgia" style="background: #000;">
+        <div class="row">
+            <p class="btnTest">@Html.ActionLink("Đánh Giá", "ThemDanhGia", "Home")</p>
+        </div>
+    </div>
+</div>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .Danhgia input[type=text], input[type=email], select, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+    }
+
+    .Danhgia {
+        border-radius: 5px;
+        background-color: #2b1d15;
+        padding: 20px;
+    }
+
+
+
+    .btnTest {
+        float: right;
+        background-color: #ffffff;
+        color: white;
+        padding: 14px 20px;
+        
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>

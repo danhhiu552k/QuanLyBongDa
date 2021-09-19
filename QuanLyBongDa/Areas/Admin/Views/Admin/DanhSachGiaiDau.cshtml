@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "DanhSachGiaiDau";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model List<GiaiDau>
+<div class="row">
+    <button class="btn-brd" style="padding:5px; margin-bottom:20px; background-color:black; color:red" onclick="location.href='@Url.Action("ThemMoiGiaiDau","Admin")'">Thêm Giải Đấu Mới</button>
+    <div class="container" style="width:100%;">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 column">
+                <div class="card">
+                    <div class="">
+                        <h3></h3>
+                        <p class="title">@item.TenGiaiDau</p>
+                        <p>
+                            <div class="center">
+                                <a href="@Url.Action("ChiTietGiaiDau","Admin",new { @MaGD = item.MaGiaiDau })">Detail</a>
+                                <span>|</span>
+                                <a href="@Url.Action("ChiTietGiaiDau","Admin",new { @MaGD = item.MaGiaiDau })">Edit</a>
+                                <span>|</span>
+                                <a href="@Url.Action("Xoa","Admin",new { @MaGD = item.MaGiaiDau })">Delete</a>
+                                <span>|</span>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿@model List<tDanhGia>
+@{
+    int i = 0;
+    foreach (var item in Model)
+    {
+        i++;
+        if (i < 10)
+        {
+    <li style="border:1px solid">
+        <h6>
+            <img alt="" src="https://www.pngitem.com/pimgs/m/294-2947257_interface-icons-user-avatar-profile-user-avatar-png.png" style="width:40px;height:40px;">
+            @item.HoTen &emsp;&emsp; |&emsp;&emsp; @item.NoiDung
+        </h6>
+    </li>
+        }
+    }
+
+}

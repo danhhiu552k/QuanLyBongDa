@@ -1,0 +1,143 @@
+﻿@model QuanLyBongDa.tTaiKhoan
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    
+    form {
+        border: 3px solid #f1f1f1;
+    }
+
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #04AA6D;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #f44336;
+    }
+
+    .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+    }
+
+    img.avatar {
+        width: 40%;
+        border-radius: 50%;
+    }
+
+    .container {
+        padding: 16px;
+    }
+
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+</style>
+<div style="width:100%">
+    @using (Html.BeginForm("Login", "Admin", FormMethod.Post, new { @style = "" }))
+    {
+
+       
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @*<table style="margin:50%;">
+                    <tr><td>Tài Khoản</td></tr>
+                    <tr>
+
+                        <td>@Html.TextBoxFor(a => a.TaiKhoan)</td>
+                        <td>@Html.ValidationMessageFor(a => a.TaiKhoan)</td>
+                    </tr>
+                    <tr><td>Mật Khẩu</td></tr>
+                    <tr>
+
+                        <td>
+                            @Html.PasswordFor(a => a.MatKhau)
+                        </td>
+                        <td>
+                            @Html.ValidationMessageFor(a => a.MatKhau)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @if (@ViewBag.Message != null)
+                            {
+                                <div style="border: 1px solid red">
+                                    @ViewBag.Message
+                                </div>
+                            }
+                        </td>
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <input type="submit" value="Login" />
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>*@
+            <h2 style="text-align:center;">Login</h2>
+
+            <form action="/action_page.php" method="post">
+                <div class="imgcontainer" style="width:100%;">
+                    <img src="https://clipartart.com/images/img_avatar2-clipart-2.png" alt="Avatar" class="avatar">
+                </div>
+
+                <div class="container" style="width:100%;">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" id="TaiKhoan" name="TaiKhoan" required>
+                    @Html.ValidationMessageFor(a => a.TaiKhoan)
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" id="MatKhau" name="MatKhau" required>
+                    @Html.ValidationMessageFor(a => a.MatKhau)
+                    <button type="submit">Login</button>
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                </div>
+                <div>
+                    @if (@ViewBag.Message != null)
+                    {
+                        <div style="border: 1px solid red; color: red; font-size: 20px;">
+                            @ViewBag.Message
+                        </div>
+                    }
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1; width:100%;">
+                    <button type="button" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+    }
+</div>
+
+

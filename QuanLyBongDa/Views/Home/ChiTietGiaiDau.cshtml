@@ -1,0 +1,48 @@
+﻿@model DoiBong
+@{
+    ViewBag.Title = "ChiTietGiaiDau";
+    Layout = "~/Views/_LayoutIndex.cshtml";
+}
+
+
+<section id="contant" class="contant main-heading team">
+    <div class="row">
+        <h2 style="margin-bottom:20px">Chi Tiet Giai Dau </h2>
+        @*<h4 style="margin-bottom:20px">Giai Dau Bao Gom @Model.Count() Doi</h4>*@
+        <div class="container">
+            <div id="ChiTietGiaiDau"></div>
+            @*@foreach (var item in Model)
+                {
+                    <div class="col-md-3 column">
+                        <div class="card">
+                            <img class="img-responsive" src="https://www.designbold.com/academy/wp-content/uploads/2018/06/Manchester_City_2016.png" alt="MCl" style="width:100%">
+                            <div class="">
+                                <h4>@item.TenDoi</h4>
+                                <p>
+                                    <div class="center"><button class="button" onclick="location.href = '@Url.Action("ChiTietDoi","Home",new { @MaDoi=item.MaDoiBong})'">Chi Tiết Đội</button></div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }*@
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script type="text/javascript">
+        var url = "https://localhost:44365/Home/ChiTietDoi?MaDoiBong=";
+        var id = '@Model.MaGiaiDau.Trim().ToString()';
+            $('document').ready(function () {
+            var link = "https://www.designbold.com/academy/wp-content/uploads/2018/06/Manchester_City_2016.png";
+                var str = '';
+                $.getJSON('/api/giaidau?MaGiaiDau=' + id, function (data) {
+                $.each(data, function (key, val) {
+
+                    str += '<div class="col-md-3 column"><div class="card"><img class="img-responsive" src="' + link + '" alt = "MCl" style = "width:100%"><div><h4>' + val.TenDoi + '</h4><p><div class="center"><button class="button" onclick="location.href=' + "'" + url + val.MaDoiBong + "'" + '">Chi Tiết</button></div></p></div></div></div>';
+                });
+                $("#ChiTietGiaiDau").html(str);
+            });
+
+        });
+    </script>
+}

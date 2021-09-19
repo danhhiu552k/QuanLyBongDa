@@ -1,0 +1,97 @@
+﻿@model QuanLyBongDa.GiaiDau
+
+@{
+    ViewBag.Title = "ThemMoiGiaiDau";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section id="contant" class="contant main-heading team">
+    <div class="row">
+        <h2 style="margin-bottom:20px">Thêm Mới Giải Đấu</h2>
+        <div class="container" style="width:100%">
+            <div class="form-horizontal">
+                <hr />
+                <form>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Mã Giải Đấu</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="MaGiaiDau" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Tên Giải Đấu</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="TenGiaiDau" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Số Lượng Đội</label>
+                        <div class="col-md-10">
+                            <input type="number" class="form-control" id="SoLuongDoi" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Thể Thức Thi Đấu</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="TheThucThiDau" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Thể Loại Sân</label>
+                        <div class="col-md-10">
+                            <input type="number" class="form-control" id="TheLoaiSan" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Giới Tính</label>
+                        <div class="col-md-10">
+                            <input type="checkbox" id="GioiTinh" /> Nam
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Tạo mới" class="btn btn-default" onclick="getdata()" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                @Html.ActionLink("Trang chủ", "Index")
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script type="text/javascript">
+        function getdata() {
+            var MaGiaiDau = document.getElementById("MaGiaiDau").value;
+            var TenGiaiDau = document.getElementById("TenGiaiDau").value;
+            var SoLuongDoi = document.getElementById("SoLuongDoi").value;
+            var TheThucThiDau = document.getElementById("TheThucThiDau").value;
+            var TheLoaiSan = document.getElementById("TheLoaiSan").value;
+            var GioiTinh = "";
+            if ($("#GioiTinh").is(':checked')) {
+                GioiTinh = 'true';
+            }
+            else GioiTinh = 'false';
+            //alert(MaGiaiDau);
+            //https://localhost:44365/api/giaidau?MaGiaiDau=GD20&TenGiaiDau=hvfsadddf&SoLuongDoi=20&TheLoaiSan=7&TheThucThiDau=vong tron&GioiTinh=true
+            $.ajax({
+                type: 'POST',
+                url: 'https://localhost:44365/api/giaidau?MaGiaiDau=' + MaGiaiDau + '&TenGiaiDau=' + TenGiaiDau + '&SoLuongDoi=' + SoLuongDoi + '&TheLoaiSan=' + TheLoaiSan + '&TheThucThiDau=' + TheThucThiDau + '&GioiTinh=' + GioiTinh,
+                dataType: 'json',
+                success: function (data) {
+                    alert("Thêm mới thành công!");
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+    </script>
+}
